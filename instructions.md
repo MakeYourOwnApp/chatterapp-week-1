@@ -19,6 +19,3 @@ inline tag
 - h2 color, smaller
 - p backgournd color
 - button: background color, color, text-transform, font-size
-
-
-
