@@ -5,86 +5,115 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+    
     <title>Chatter|App</title>
-
-    <!-- #2 #css #elements -->
-    <style>
-        * {
-            font-family: Roboto, Arial, sans-serif;
-        }
-
-        h1 {
-            color: #00838f;
-        }
-
-        h2 {
-            color: #00838f;
-            font-size: smaller;
-        }
-
-        p {
-            background-color: #eeeeee;
-        }
-
-        button {
-            background-color: #00838f;
-            color: #ffffff;
-            text-transform: uppercase;
-            font-size: larger;
-        }
-    </style>
-
 </head>
 
-<body>
-    <section>
-        <h1>chatter | app</h1>
-
-        <h2>Favorites</h2>
-        <strong>MeetUp</strong>
-        <small>11:51</small>
-        <br>
-        <strong>Oktoberfest</strong>
-        <small>10:51</small>
+<body onload="init()">
+    <section id="channels">
+        <div class="headbar">
+            <img src="https://ip.lfe.mw.tum.de/sections/moocus.png" alt="Moocus Logo" id="logo" />
+            <h1 id="app-title"> chatter | app</h1>
+        </div>
         
-        <h2>Regular</h2>
-        <strong>WeatherChannel</strong>
-        <small>Yesterday</small>
-        <br>
-        <strong>SevenContinents</strong>
-        <small>23 May 2018</small>
+        <a class="fab" id="channel-fab">+</a>
 
+        <div id="channel-list-area">
+            <h2>Favorites</h2>
+            <ul class="channel-list" id="favorite-channels"></ul>
+
+            <h2>Regular</h2>
+            <ul class="channel-list" id="regular-channels"></ul>
+        </div>
     </section>
 
-    <section>
-        <h1>MeetUp</h1>
-        <button>Favorite</button>
+    
 
-        <h2>Jessie Koch</h2>
-        <p>
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Repellat eveniet porro officia,
-            nesciunt aut delectus incidunt possimus illum placeat repudiandae reiciendis corporis ab.
-            ste vel ducimus blanditiis, tempora adipisci doloribus.
-        </p>
-        <small>11:45</small>
+    <section id="chat">
+        <div class="headbar">
+            <h1 id="chat-title"></h1>
+            <a id="favorite-button" class="material-icons"></a>
+        </div>
 
-        <h2>Jessie Koch</h2>
-        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Repellat eveniet porro officia,
-            nesciunt aut delectus incidunt possimus illum placeat repudiandae reiciendis corporis ab.
-            Iste vel ducimus blanditiis, tempora adipisci doloribus.</p>
-        <small>11:49</small>
+        <div id="chat-area">
+            <p id="select-channel">Select a channel to start messaging.</p>
 
-        <h2>Jessie Koch</h2>
-        <p>Lorem ipsum Lorem ipsum dolor, sit amet consectetur adipisicing elit. Consectetur dolor
-            voluptas debitis deleniti iure consequatur saepe! Sed repellendus accusantium neque nemo
-            doloremque ipsa deleniti. Cumque rem repudiandae accusamus dolores adipisci!.</p>
-        <small>11:49</small>
+            <!-- <div class="message outgoing">
+                <div class="message-wrapper">
+                    <div class="message-content">
+                        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Repellat eveniet porro officia,
+                            nesciunt aut delectus incidunt possimus illum placeat repudiandae reiciendis corporis ab.</p>
+                    </div>
+                    <i class="account-pfp material-icons">account_circle</i>
+                </div>
+                <span class="timestamp">11:49</span>
+            </div>
+            
 
-        <br>
+            <div class="message incoming">
+                <div class="message-wrapper">
+                    <i class="account-pfp material-icons">account_circle</i>
+                    <div class="message-content">
+                        <h2>Jessie Koch</h2>
+                            <p>Lorem ipsum Lorem ipsum dolor, sit amet consectetur adipisicing elit. Consectetur dolor
+                            voluptas debitis deleniti iure consequatur saepe! Sed repellendus accusantium neque nemo
+                            doloremque ipsa deleniti. Cumque rem repudiandae accusamus dolores adipisci!.</p>
+                    </div>
+                </div>
+                <span class="timestamp">11:49</span>
+            </div> --> 
+        </div>
 
-        <input>
-        <button>Send</button>
+        <div id="input-area">
+            <i class="material-icons" id="emoticon-button">insert_emoticon</i>
+            <input 
+                type="text" 
+                placeholder="... write your message" 
+                id="message-input" 
+                name="input-text" 
+                minlength="1" 
+                maxlength="500"/>
+            <a class="material-icons button" id="send-button" onclick="sendMessage()">send</a>
+        </div>
+
+        <div id="emoji-area">
+            <div id="emoji-header">
+                <span>Emojis</span>
+                <a class="material-icons button" id="close-emoticon-button">cancel</a>
+            </div>
+            <div id="emoji-list"></div>
+        </div>
     </section>
+
+    <div class="modal">
+        <div class="modal-content">
+            <p>Channel Name</p>
+            <input 
+                type="text" 
+                placeholder="... channel name" 
+                id="new-channel-name" 
+                name="new-channel-name" 
+                minlength="1" 
+                maxlength="500"/>
+            <div class="modal-footer">
+                <div class="button" id="cancel-button">
+                    <a class="material-icons button">cancel</a><span>cancel</span>
+                </div>
+                <div class="button" onclick="createChannel()">
+                    <a class="material-icons button" id="create-button">check</a><span>create</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script src="js/channels.js"></script>
+    <script src="js/messages.js"></script>
+    <script src="js/emojis.js"></script>
 </body>
 
 </html>
